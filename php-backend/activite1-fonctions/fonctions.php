@@ -18,14 +18,11 @@ return $a/$b;
 
 }
 function estPair(int $n){
-    if($n%2===0){
-        return true;
-    }
+    return $n%2===0;
 }
 function estPositif(float $n){
-    if($n>=0){
-        return true;
-    }
+    return $n>=0;
+    
 }
 function maxinum(float $a,float $b,float $c){
     $num=[$a,$b,$c];
@@ -42,7 +39,7 @@ function maxnombre(float $a,float $b,float $c){
     return max($num);
 }
 function estPremier(int $n){
-    $f=false;
+    $f=true;
     if ($n === 1){
         $f=false;
     }
@@ -50,10 +47,17 @@ function estPremier(int $n){
         if($n%$i===0){
             $f=false;
             break;
-        }else{
-            $f=true;
         }
     }
     
     return $f;
+}
+function calculerTTC(float $ht, float $tva = 20.0): float { 
+    return $ht * (1+$tva/100);
+}
+function calculerRemise(float $prix, float $pourcentage): float {
+    return $prix * (1-$pourcentage/100);
+}
+function calculerFacture(float $prixUnitaire, int $quantite, float $remise = 0, float $tva = 20.0): float {
+    return calculerRemise(calculerTTC($prixUnitaire*$quantite,$tva),$remise);
 }

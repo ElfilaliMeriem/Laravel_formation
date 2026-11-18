@@ -1,48 +1,40 @@
 <?php 
 declare(strict_types=1); 
-function additionner(float $a,float $b){
+function additionner(float $a,float $b):float{
     return $a+$b;
 }
-function soustraire(float $a,float $b){
+function soustraire(float $a,float $b):float{
     return $a-$b;
 }
-function multiplier(float $a,float $b){
+function multiplier(float $a,float $b):float{
     return $a*$b;
 }
-function diviser(float $a,float $b){
-    if($b==0){
-        throw new Exception ("Divition par Zero");
-        
+function diviser(float $a,float $b):float{
+    if($b==0) throw new Exception ("Divition par Zero");
+    return $a/$b;
 }
-return $a/$b;
-
-}
-function estPair(int $n){
+function estPair(int $n):bool{
     return $n%2===0;
 }
-function estPositif(float $n){
+function estPositif(float $n):bool{
     return $n>=0;
     
 }
-function maxinum(float $a,float $b,float $c){
+function maxinum(float $a,float $b,float $c):float{
     $num=[$a,$b,$c];
     $max=0;
     foreach($num as $v){
-        if ($max<$v){
-            $max=$v;
-        }
+        if ($max<$v) $max=$v;
     }
     return $max;
 }
-function maxnombre(float $a,float $b,float $c){
+function maxnombre(float $a,float $b,float $c):float{
     $num=[$a,$b,$c];
     return max($num);
 }
-function estPremier(int $n){
+function estPremier(int $n):bool{
     $f=true;
-    if ($n === 1){
-        $f=false;
-    }
+    if ($n === 1) $f=false;
     for($i=2;$i<$n;$i++){
         if($n%$i===0){
             $f=false;
@@ -62,12 +54,8 @@ function calculerFacture(float $prixUnitaire, int $quantite, float $remise = 0, 
     return calculerRemise(calculerTTC($prixUnitaire*$quantite,$tva),$remise);
 }
 function moyenne(float ...$notes): float {
-    if (!$notes){
-        return 0;
-    }
-    else{
-        return array_sum($notes)/count($notes);
-    }
+    if (!$notes) return 0;
+    else return array_sum($notes)/count($notes);
 }
 function aireCercle(float $rayon): float{
     return ($rayon**2)*M_PI;

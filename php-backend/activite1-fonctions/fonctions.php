@@ -48,7 +48,7 @@ function calculerTTC(float $ht, float $tva = 20.0): float {
     return $ht * (1+$tva/100);
 }
 function calculerRemise(float $prix, float $pourcentage): float {
-    return $prix * (1-$pourcentage/100);
+    return round($prix * (1-$pourcentage/100),2);
 }
 function calculerFacture(float $prixUnitaire, int $quantite, float $remise = 0, float $tva = 20.0): float {
     return calculerRemise(calculerTTC($prixUnitaire*$quantite,$tva),$remise);
@@ -58,10 +58,10 @@ function moyenne(float ...$notes): float {
     else return array_sum($notes)/count($notes);
 }
 function aireCercle(float $rayon): float{
-    return ($rayon**2)*M_PI;
+    return round(($rayon**2)*M_PI,2);
 }
 function perimetreCercle(float $rayon): float{
-    return $rayon*M_PI*2;
+    return round($rayon*M_PI*2,2);
 }
 function celsiusVersFahrenheit(float $c): float{
     return $c*9/5+32;

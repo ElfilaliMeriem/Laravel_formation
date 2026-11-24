@@ -1,5 +1,6 @@
 <?php 
 declare(strict_types=1); 
+// Étape 1 — Les quatre opérations 
 function additionner(float $a,float $b):float{
     return $a+$b;
 }
@@ -13,6 +14,7 @@ function diviser(float $a,float $b):float{
     if($b==0) throw new Exception ("Divition par Zero");
     return $a/$b;
 }
+// Étape 2 — Fonctions logiques 
 function estPair(int $n):bool{
     return $n%2===0;
 }
@@ -44,6 +46,7 @@ function estPremier(int $n):bool{
     
     return $f;
 }
+// Étape 3 — Calculs commerciaux 
 function calculerTTC(float $ht, float $tva = 20.0): float { 
     return $ht * (1+$tva/100);
 }
@@ -53,6 +56,7 @@ function calculerRemise(float $prix, float $pourcentage): float {
 function calculerFacture(float $prixUnitaire, int $quantite, float $remise = 0, float $tva = 20.0): float {
     return calculerRemise(calculerTTC($prixUnitaire*$quantite,$tva),$remise);
 }
+// Étape 4 — Statistiques et géométrie
 function moyenne(float ...$notes): float {
     if (!$notes) return 0;
     else return array_sum($notes)/count($notes);
@@ -72,6 +76,7 @@ function FahrenheitVerscelsius(float $f): float{
 function convertirDevise(float $montant, float $taux): float {
     return $montant * $taux;
 }
+// Étape 5 — Fonctions à boucle
 function factorielle(int $n): int {
     if($n<0) return 0;
     if($n==0) return 1;

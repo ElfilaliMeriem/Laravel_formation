@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-$notes = [12, 15, 8, 17, 9, 14, 11]; 
+// Étape 1 — Lecture et parcours 
+$notes = []; 
 $prenoms = ['Sara', 'Youssef', 'Imane', 'Omar', 'Khadija']; 
 echo $notes[array_key_first($notes)]."\n";
 echo $notes[array_key_last($notes)]."\n";
@@ -15,8 +16,9 @@ foreach($notes as $note){
     $i+=1;
 }
 foreach($prenoms as $key=>$value){
-    echo $key.". ".$value."\n";
+    echo $key+1 .". ".$value."\n";
 }
+// Étape 2 — Ajouter, retirer, insérer 
 $notes[count($notes)]=16;
 array_push($notes,16);
 array_unshift($notes,10);
@@ -30,6 +32,7 @@ unset($notes[1]);
 print_r($notes);
 $notes = array_values($notes);
 print_r($notes);
+// Étape 3 — Recherche 
 if (in_array(17,$notes)){
     echo "la note 17 existe\n";
 }
@@ -46,11 +49,17 @@ if (in_array('Omar',$prenoms,true)){
 else {
     echo "Le prénom Omar n'existe pas.\n";
 }
-$notes=[12, 15, 8, 17, 9, 14, 11];
-echo round(array_sum($notes),2)."\n";
-echo round(array_sum($notes)/count($notes),2)."\n";
-echo max($notes)."\n";
-echo min($notes)."\n";
+// Étape 4 — Statistiques 
+$notes=[];
+$somme= round(array_sum($notes),2)."\n";
+$moyenne= round(array_sum($notes)/count($notes),2)."\n";
+$min = (empty($notes))? 0.0 : min($notes);
+$max = (empty($notes))? 0.0 : max($notes);
+echo "Somme : $somme | Moyenne : $moyenne | Min : $min | Max : $max \n";
+$min = (empty($notes))? 0.0 : min($notes);
+$max = (empty($notes))? 0.0 : max($notes);
+echo "Max : $max\n";
+echo "Min : $min\n";
 $nombre=0;
 for($i=0;$i<count($notes);$i++) {
     if ($notes[$i]>=10) $nombre++;
@@ -61,7 +70,7 @@ echo "le pourcentage de réussite: ".round(count(array_filter($notes,fn($n)=>$n>
 // copie du tableau
 $n=$notes;
 sort($n);
-echo (count($n)%2==0)? "la moyenne des deux valeurs centrales: ".$n[count($n)/2]+$n[count($n)/2-1]/2: "la valeur centrale: ".$n[count($n)/2];
+echo (count($n)%2==0)? "la moyenne des deux valeurs centrales: ".$n[intdiv(count($notes),2)]+$n[intdiv(count($notes),2)-1]/2: "la valeur centrale: ".$n[intdiv(count($notes),2)];
 echo "\n";
 // Étape 5 — Tri et extraction 
 // copie le tableau original
@@ -95,7 +104,7 @@ echo "La somme des notes : $total \n";
 $t3=array_map("strtoupper", $prenoms);
 print_r($t3);
 // Mentions : produisez un tableau de chaînes 
-$Mentions=array_map(fn($n)=>($n<10)?"$n Ajourné":(($n>=10 and $n<=13.99)?"$n Passable":(($n>=14 and $n<=15.99)?"$n Assez bien":"$n Bien")),$notes);
+$Mentions=array_map(fn($n)=>($n<10)?"$n Ajourné":(($n<14)?"$n Passable":(($n<16)?"$n Assez bien":"$n Bien")),$notes);
 print_r($Mentions);
 // Étape 7 — Chaînes, fusion et ensembles
 // Affichez les prénoms
@@ -106,3 +115,48 @@ print_r($t4);
 // Fusionnez ["php", "sql"] et ["js", "sql"] avec array_merge puis dédoublonnez
 $t6=array_unique(array_merge(["php", "sql"],["js", "sql"]));
 echo "Fusion dédoublonnée : ".implode(", ",$t6)."\n";
+// afficher les éléments communs
+$a = ["php","js","sql"];
+$b = ["js","html","sql"];
+echo "Les éléments communs entre [" . implode(", ", $a) . "] et [" . implode(", ", $b) . "] : ".implode(", ",array_intersect($a,$b))."\n";
+echo "Les éléments qui ne sont que dans le premier tableau : ".implode(", ",array_diff($a,$b))."\n";
+$paquets = [];
+foreach (array_chunk(range(1, 10), 3) as $tabl) {
+    array_push($paquets,"[" . implode(", ", $tabl) . "]");
+}
+echo "Paquets de 3 : " . implode(" ", $paquets) . "\n";
+// Étape 8 — Mini-problème : le carnet de notes 
+$notes=[];
+// calcule le moyenne
+function moyenne(array $notes): float{
+    if(empty($notes)) return 0.0;
+    return round(array_sum($notes)/count($notes),2);
+}
+
+echo "Moyenne : ".moyenne($notes)."\n";
+// Médiane
+function mediane(array $notes): float {
+    if (empty($notes)) return 0.0;
+    sort($notes);
+    $n=intdiv(count($notes),2);
+    return (count($notes)%2==0)?$notes[$n]+$notes[$n-1]/2:$notes[$n];
+}
+echo "Médiane : ".mediane($notes)."\n";
+// admis
+function admis(array $notes, float $seuil = 10): array {
+    return array_values(array_filter($notes,fn($n)=>$n>=$seuil));
+}
+echo "Admis (>=10) : ".count(admis($notes,10))." sur ".count($notes)." (".round(count(admis($notes,10))/count($notes)*100,2)."%) \n";
+// "Les 3 meilleures notes : ".implode(", ",array_slice($notes,0,3))
+function meilleures(array $notes, int $n = 3): array{
+    rsort($notes);
+    return array_slice($notes,0,$n);
+}
+
+echo "3 meilleures notes : ".implode(", ",meilleures($notes))."\n";
+function histogramme(array $notes): void{
+    foreach($notes as $note){
+        echo str_repeat("*",$note)."\n";
+    }
+}
+histogramme($notes);
